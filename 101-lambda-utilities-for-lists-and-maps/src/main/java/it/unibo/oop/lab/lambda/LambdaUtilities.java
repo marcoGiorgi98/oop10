@@ -1,11 +1,15 @@
 package it.unibo.oop.lab.lambda;
 
+import java.lang.StackWalker.Option;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -61,7 +65,15 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Optional.filter
          */
-        return null;
+        List<Optional<T>> lista= new ArrayList<>();
+        list.forEach((e)->{
+            if(pre.test(e)){
+                lista.add(Optional.of(e));
+            }else{
+                lista.add(Optional.empty());
+            }
+        }); 
+        return lista;
     }
 
     /**
@@ -80,7 +92,12 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Map.merge
          */
-        return null;
+        Collection<T> sett =new TreeSet<>();
+        Map<R, Set<T>> mappa=new HashMap<>();
+        list.forEach((e) -> {
+           mappa.put(op.apply(e),new TreeSet());
+        });
+        return mappa;
     }
 
     /**
@@ -101,7 +118,11 @@ public final class LambdaUtilities {
          *
          * Keep in mind that a map can be iterated through its forEach method
          */
-        return null;
+        Map<K, V> mappa=new HashMap<>();
+        map.forEach((t,e) -> {
+            mappa.put(t, e.orElse(def.get()));
+        });
+        return mappa;
     }
 
     /**

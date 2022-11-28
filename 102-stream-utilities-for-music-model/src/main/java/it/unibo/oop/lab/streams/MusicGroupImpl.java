@@ -31,27 +31,39 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Stream<String> orderedSongNames() {
-        return null;
+     
+            return  songs.stream().sorted().map(e -> e.getSongName());  
+        
     }
 
     @Override
     public Stream<String> albumNames() {
-        return null;
+        return  albums.keySet().stream();
     }
 
     @Override
     public Stream<String> albumInYear(final int year) {
-        return null;
+        Set<String> setto= new HashSet<>();
+         albums.forEach((a,b) -> {
+            if(b==year){
+                setto.add(a);
+            }
+        });
+        return setto.stream();
     }
 
     @Override
     public int countSongs(final String albumName) {
-        return -1;
+       return (int)this.songs.stream()
+        .filter(s -> s.getAlbumName().isPresent())
+        .filter(t->t.getAlbumName().get().equals(albumName)).count();
     }
 
     @Override
     public int countSongsInNoAlbum() {
-        return -1;
+        return (int)this.songs.stream()
+        .filter(s -> s.getAlbumName().isEmpty()).count();
+       
     }
 
     @Override
